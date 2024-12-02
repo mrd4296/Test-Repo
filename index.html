@@ -4,13 +4,13 @@
     <title>Audio Example</title>
 </head>
 <body>
-    <audio id="audio-player" autoplay controls>
-        <source src="https://vnso-pt-25-tf-a128-z3.zmdcdn.me/883629ebc2fdca1b854fb75bf0189845?authen=exp=1732070929~acl=/883629ebc2fdca1b854fb75bf0189845*~hmac=98cf83909838502f21b05c42d56aa4c6" type="audio/mpeg">
+    <audio id="audio-player" controls>
+        <source src="https://download.samplelib.com/mp3/sample-15s.mp3" type="audio/mpeg">
     </audio>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const audio = document.getElementById("audio-player");
-            if (audio) {
+            if (audio && document.visibilityState === "visible") {
                 // Force play to ensure audio starts even if autoplay is blocked
                 audio.play().then(() => {
                     console.log("Audio playback started successfully.");
@@ -19,6 +19,18 @@
                 });
             }
         });
+        document.addEventListener("visibilitychange", event => {
+            const audio = document.getElementById("audio-player");
+              if (document.visibilityState === "visible") {
+                  audio.play().then(() => {
+                    console.log("Audio playback started successfully.");
+                }).catch(error => {
+                    console.error("Audio playback error:", error);
+                });
+              } else {
+                audio && audio.pause();
+              }
+        })
     </script>
 </body>
 </html>
